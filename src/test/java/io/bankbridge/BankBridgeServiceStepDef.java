@@ -73,7 +73,7 @@ public class BankBridgeServiceStepDef {
 			assertTrue(actual.stream().anyMatch(actMap -> {
 				if(actMap.get("id") == null || map.get("id") == null)
 					return actMap.get("name").equals(map.get("name"));
-				else if(actMap.get("id") == null && map.get("id") == null) // "null" since cucumber sets empty string as "null"
+				else if(actMap.get("id") == null && map.get("id") == null)
 					return true;
 				return actMap.get("id").equals(map.get("id")) && actMap.get("name").equals(map.get("name"));
 			}));
