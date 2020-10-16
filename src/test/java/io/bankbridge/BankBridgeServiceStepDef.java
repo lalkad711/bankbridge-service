@@ -1,6 +1,7 @@
 package io.bankbridge;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.List;
@@ -69,8 +70,13 @@ public class BankBridgeServiceStepDef {
 	private void assertReponseResults(List<Map<String, String>> expected, List<Map<String, String>> actual) {
 		assertEquals(expected.size(), actual.size());
 		expected.forEach(map -> {
-			actual.stream().anyMatch(data -> data.entrySet().stream()
-					.anyMatch(entry -> map.containsKey(entry.getKey()) && map.containsValue(entry.getValue())));
+			assertTrue(actual.stream().anyMatch(actMap -> {
+				if(actMap.get("id") == null && map.get("id").equals("null")) // "null" since cucumber sets empty string as "null"
+					return true;
+				else if(actMap.get("id") == null || map.get("id").equals("null"))
+					return false;
+				return actMap.get("id").equals(map.get("id")) && actMap.get("name").equals(map.get("name"));
+			}));
 		});
 	}
 }
